@@ -1,0 +1,39 @@
+# Django
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+db.sqlite3
+/media/
+*.log
+
+# Virtual Environment
+venv/
+env/
+*.venv
+Pipfile
+Pipfile.lock
+
+# Django Secret Keys
+.env
+*.env
+config/settings/.env
+
+# Django Migrations (เฉพาะไฟล์ที่ไม่ใช่ migration ที่สำคัญ)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Static / Media Files
+/static/
+media/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
