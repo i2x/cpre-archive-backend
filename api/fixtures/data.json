@@ -1,0 +1,123 @@
+[
+    {
+        "model": "api.CustomUser",
+        "pk": 1,
+        "fields": {
+            "is_superuser": 0,
+            "username": "0x8084",
+            "email": "0x8084@gmail.com",
+            "is_staff": 0,
+            "is_active": 1,
+            "role": "member"
+        }
+    },
+    {
+        "model": "api.Curriculum",
+        "pk": "CPRE2019",
+        "fields": {
+            "name": "Computer Engineering 2019",
+            "year": 2019
+        }
+    },
+    {
+        "model": "api.Curriculum",
+        "pk": "CPRE2021",
+        "fields": {
+            "name": "Computer Engineering 2021",
+            "year": 2021
+        }
+    },
+    {
+        "model": "api.Course",
+        "pk": "CS101",
+        "fields": {
+            "name": "Introduction to Computer Science"
+        }
+    },
+    {
+        "model": "api.Course",
+        "pk": "CS102",
+        "fields": {
+            "name": "Data Structures and Algorithms"
+        }
+    },
+    {
+        "model": "api.Course",
+        "pk": "SE201",
+        "fields": {
+            "name": "Software Engineering Principles"
+        }
+    },
+    {
+        "model": "api.CurriculumMapping",
+        "pk": 1,
+        "fields": {
+            "curriculum": "CPRE2021",
+            "course": "CS101",
+            "year": 1,
+            "term": 1
+        }
+    },
+    {
+        "model": "api.CurriculumMapping",
+        "pk": 2,
+        "fields": {
+            "curriculum": "CPRE2021",
+            "course": "CS102",
+            "year": 2,
+            "term": 1
+        }
+    },
+    {
+        "model": "api.CurriculumMapping",
+        "pk": 3,
+        "fields": {
+            "curriculum": "CPRE2021",
+            "course": "SE201",
+            "year": 2,
+            "term": 2
+        }
+    },
+    {
+        "model": "api.Note",
+        "pk": 1,
+        "fields": {
+            "name": "Python Basics",
+            "file_url": "https://drive.google.com/example-python",
+            "user": 1,
+            "course": "CS101",
+            "thumbnail_url": "https://example.com/python-thumbnail.jpg",
+            "tags": "python, programming, basics",
+            "created_at": "2025-02-04T12:00:00Z",
+            "updated_at": "2025-02-04T12:00:00Z"
+        }
+    },
+    {
+        "model": "api.Note",
+        "pk": 2,
+        "fields": {
+            "name": "Data Structures Guide",
+            "file_url": "https://example.com/dsa-guide.pdf",
+            "user": 1,
+            "course": "CS102",
+            "thumbnail_url": "https://example.com/dsa-thumbnail.jpg",
+            "tags": "data structures, algorithms, guide",
+            "created_at": "2025-02-05T08:30:00Z",
+            "updated_at": "2025-02-05T08:30:00Z"
+        }
+    },
+    {
+        "model": "api.Note",
+        "pk": 3,
+        "fields": {
+            "name": "Software Engineering Notes",
+            "file_url": "https://example.com/se-notes.pdf",
+            "user": 1,
+            "course": "SE201",
+            "thumbnail_url": "https://example.com/se-thumbnail.jpg",
+            "tags": "software engineering, development, principles",
+            "created_at": "2025-02-06T10:15:00Z",
+            "updated_at": "2025-02-06T10:15:00Z"
+        }
+    }
+]
