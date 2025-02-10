@@ -1,1 +1,1 @@
-from .functional_test_notes import TestLocalhostNotes;
+from .minimum_test import MinimumTest;
