@@ -157,10 +157,8 @@ class MinimumTest(StaticLiveServerTestCase):
             self.assertEqual(result_text.text, "test_case_001_edit_here")
             print("✅ Verified Search Result contains 'test_case_001_edit_here'")
 
-            # time.sleep(1) เอาออก
 
-
-       # Step 12: Click Navigation to search page
+       # Step 16: Click Navigation to search page
         with self.subTest("Click Navigation to Search Page"):
             search_nav_link = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.nav-card > div.nav-links > a:nth-child(3)"))
@@ -168,24 +166,49 @@ class MinimumTest(StaticLiveServerTestCase):
             search_nav_link.click()
             print("✅ Clicked Navigation to Search Page")
         
-                # Step 13: Click Delete Button for the second row note
-            with self.subTest("Click Delete Button on Row 2 and Accept Alert"):
-                delete_button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-danger.btn-sm.ms-1"))
-                )
-                delete_button.click()
-                print("✅ Clicked Delete Button on Row 2")
+                # Step 17: Click Delete Button for the second row note
+        with self.subTest("Click Delete Button on Row 2 and Accept Alert"):
+            delete_button = WebDriverWait(self.driver, 10).until(
+               EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-danger.btn-sm.ms-1"))
+               )
+            delete_button.click()
+            print("✅ Clicked Delete Button on Row 2")
 
                 # Handle alert popup
-                WebDriverWait(self.driver, 10).until(EC.alert_is_present())
-                alert = self.driver.switch_to.alert
-                alert.accept()
-                print("✅ Accepted Alert")
+            WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+            alert = self.driver.switch_to.alert
+            alert.accept()
+            print("✅ Accepted Alert")
+        # Step 18: Navigate back to the Search Page
+        with self.subTest("Navigate Back to Search Page"):
+            search_nav_link = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.nav-card > div.nav-links > a:nth-child(1)"))
+        )
+        search_nav_link.click()
+        print("✅ Navigated Back to Search Page")
 
-                #ลบไม่มี verify
+        # Step 19: Fill Search Input Again with the Same Query
+        with self.subTest("Fill Search Input After Deletion"):
+            search_input = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > input"))
+            )
+            search_input.clear()
+            search_input.send_keys("001_edit_here")
+            print("✅ Re-entered Search Query '001_edit_here'")
 
+        # Step 20: Click Search Button
+        with self.subTest("Click Search Button Again"):
+            search_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > button"))
+            )
+            search_button.click()
+            print("✅ Clicked Search Button Again")
 
+        # Step 21: Verify No Search Results After Deletion
+        with self.subTest("Verify No Search Results After Deletion"):
 
-
-        
-        
+            no_files_element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'No files found.')]"))
+            )
+            self.assertIsNotNone(no_files_element, "❌ 'No files found.' message not found!")
+            print("✅ Verified 'No files found.' message appears after deletion")
