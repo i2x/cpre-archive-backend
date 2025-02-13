@@ -11,6 +11,22 @@ class CourseListView(APIView):
         course_data = [{"id": course.id, "name": course.name} for course in courses]
         return Response({"courses": course_data}, status=status.HTTP_200_OK)
 
+    def post(self, request):
+        """Create a new course"""
+        data = request.data  # DRF handles JSON parsing
+
+        if "id" not in data or "name" not in data:
+            return Response({"message": "Missing required fields: 'id' and 'name'"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if Course.objects.filter(id=data["id"]).exists():
+            return Response({"message": "Course ID already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
+        course = Course.objects.create(id=data["id"], name=data["name"])
+        return Response({
+            "message": "Course created successfully",
+            "course": {"id": course.id, "name": course.name}
+        }, status=status.HTTP_201_CREATED)
+    
 class CourseDetailView(APIView):
     def get(self, request, course_id):
         """Fetch 1 course with string ID"""
@@ -49,19 +65,4 @@ class CourseDetailView(APIView):
             "course": {"id": course.id, "name": course.name}
         }, status=status.HTTP_200_OK)
 
-class CourseCreateView(APIView):
-    def post(self, request):
-        """Create a new course"""
-        data = request.data  # DRF handles JSON parsing
 
-        if "id" not in data or "name" not in data:
-            return Response({"message": "Missing required fields: 'id' and 'name'"}, status=status.HTTP_400_BAD_REQUEST)
-
-        if Course.objects.filter(id=data["id"]).exists():
-            return Response({"message": "Course ID already exists"}, status=status.HTTP_400_BAD_REQUEST)
-
-        course = Course.objects.create(id=data["id"], name=data["name"])
-        return Response({
-            "message": "Course created successfully",
-            "course": {"id": course.id, "name": course.name}
-        }, status=status.HTTP_201_CREATED)
