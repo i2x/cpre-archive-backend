@@ -9,7 +9,6 @@ from .views import (
     NoteSearchView,
     GetTokenByEmailView,
     CourseDetailView,
-    CourseCreateView,
 )
 
 
@@ -22,9 +21,9 @@ urlpatterns = [
 
 
     # 🎯 Course API
-    path("courses/", CourseListView.as_view(), name="course-list"),
-    path("courses/create/", CourseCreateView.as_view(), name="course-create"),
-    path('courses/<str:course_id>/', CourseDetailView.as_view(), name='course-detail'),
+    path("courses/", CourseListView.as_view(), name="course-list"),  # GET all courses
+    # path("courses/create/", CourseCreateView.as_view(), name="course-create"),  # POST new course
+    path("courses/<str:course_id>/", CourseDetailView.as_view(), name="course-detail"),  # GET, PUT, DELETE specific course
 
     # 🎯 Note APIs
     path("notes/", NoteListCreateView.as_view(), name="note-list-create"),  # List & Create
