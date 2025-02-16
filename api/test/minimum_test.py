@@ -54,7 +54,7 @@ class MinimumTest(StaticLiveServerTestCase):
             "note": "math",
             "pdf": "google-drive.com/note001.pdf",
             "course": "CS101",
-            "desc": "first test"
+            "desc": "calculus"
         }
 
         with self.subTest("Fill in note details"):
@@ -144,48 +144,82 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3 > strong"))
             )
             self.assertEqual(result_text.text, "math2")
+        # Step 16: Click on dropdown to select 'Tags'
+        with self.subTest("Click on search dropdown"):
+            dropdown = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > select"))
+            )
+            dropdown.click()
 
-       # Step 16: Click Navigation to search page
-        with self.subTest("Click Navigation to Search Page"):
+        # Step 17: Select 'Tags' from dropdown
+        with self.subTest("Select 'Tags' option from dropdown"):
+            tag_option = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//option[@value='tags']"))
+             )
+            tag_option.click()
+
+        # Step 18: Enter search query 'data structures'
+        with self.subTest("Enter search query 'data structures'"):
+            search_input = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > input"))
+            )
+            search_input.clear()
+            search_input.send_keys("data structures")
+
+        # Step 19: Click Search Button_
+        with self.subTest("Click Search Button"):
+            search_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > button"))
+            )
+            search_button.click()
+
+        # Step 20: Verify search result contains 'Data Structures Guide'
+        with self.subTest("Verify search result contains 'Data Structures Guide'"):
+            result_text = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3 > strong"))
+            )
+            self.assertEqual(result_text.text, "Data Structures Guide")
+       # Step 21: Click Navigation to note page
+        with self.subTest("Click Navigation to Note Page"):
             search_nav_link = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.nav-card > div.nav-links > a:nth-child(3)"))
             )
             search_nav_link.click()
         
-                # Step 17: Click Delete Button for the second row note
+        # Step 22: Click Delete Button for the second row note
         with self.subTest("Click Delete Button on Row 2 and Accept Alert"):
             delete_button = WebDriverWait(self.driver, 10).until(
                EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-danger.btn-sm.ms-1"))
                )
             delete_button.click()
 
-                # Handle alert popup
+        # Handle alert popup
             WebDriverWait(self.driver, 10).until(EC.alert_is_present())
             alert = self.driver.switch_to.alert
             alert.accept()
-        # Step 18: Navigate back to the Search Page
+        # Step 23: Navigate back to the Search Page
         with self.subTest("Navigate Back to Search Page"):
             search_nav_link = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.nav-card > div.nav-links > a:nth-child(1)"))
         )
         search_nav_link.click()
 
-        # Step 19: Fill Search Input Again with the Same Query
+        # Step 24: Fill Search Input Again with the Same Query
         with self.subTest("Fill Search Input After Deletion"):
             search_input = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > input"))
             )
             search_input.clear()
             search_input.send_keys("math")
-
-        # Step 20: Click Search Button
+        # Step 25: Click Search Button
         with self.subTest("Click Search Button Again"):
             search_button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > button"))
             )
             search_button.click()
+            time.sleep(0.1)
 
-        # Step 21: Verify No Search Results After Deletion
+        # Step 26: Verify No Search Results After Deletion
         with self.subTest("Verify No Search Results After Deletion"):
 
             no_files_element = WebDriverWait(self.driver, 10).until(
