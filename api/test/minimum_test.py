@@ -5,7 +5,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-
 class MinimumTest(StaticLiveServerTestCase):
     def setUp(self):
         """Setup Selenium WebDriver"""
@@ -52,7 +51,7 @@ class MinimumTest(StaticLiveServerTestCase):
 
         # Step 5: ใส่ข้อมูลลงในแถวแรก
         note_data = {
-            "note": "test_case_001",
+            "note": "math",
             "pdf": "google-drive.com/note001.pdf",
             "course": "CS101",
             "desc": "first test"
@@ -94,13 +93,13 @@ class MinimumTest(StaticLiveServerTestCase):
             )
             edit_button.click()
 
-        # Step 9: แก้ไขค่าในช่อง Note (เปลี่ยนเป็น 'test_case_001_edit_here')
+        # Step 9: แก้ไขค่าในช่อง Note (เปลี่ยนเป็น 'math2')
         with self.subTest("Edit Note Input in Row 2"):
             edit_note_input = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "table > tbody > tr:nth-child(2) > td:nth-child(1) > input"))
             )
             edit_note_input.clear()
-            edit_note_input.send_keys("test_case_001_edit_here")
+            edit_note_input.send_keys("math2")
 
         # Step 10: กดปุ่มบันทึก (Save)
         with self.subTest("Click Save Button on Row 2"):
@@ -115,7 +114,7 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.presence_of_element_located((By.CSS_SELECTOR, "table > tbody > tr:nth-child(2) > td:nth-child(1)"))
             )
             
-            self.assertEqual(updated_note.text, "test_case_001_edit_here")
+            self.assertEqual(updated_note.text, "math2")
 
        # Step 12: Click Navigation to search page
         with self.subTest("Click Navigation to Search Page"):
@@ -124,13 +123,13 @@ class MinimumTest(StaticLiveServerTestCase):
             )
             search_nav_link.click()
 
-        # Step 13: Fill input field with '001_edit_here'
+        # Step 13: Fill input field with 'math'
         with self.subTest("Fill Search Input"):
             search_input = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > input"))
             )
             search_input.clear()
-            search_input.send_keys("001_edit_here")
+            search_input.send_keys("math")
 
         # Step 14: Click Search Button
         with self.subTest("Click Search Button"):
@@ -144,7 +143,7 @@ class MinimumTest(StaticLiveServerTestCase):
             result_text = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3 > strong"))
             )
-            self.assertEqual(result_text.text, "test_case_001_edit_here")
+            self.assertEqual(result_text.text, "math2")
 
        # Step 16: Click Navigation to search page
         with self.subTest("Click Navigation to Search Page"):
@@ -177,7 +176,7 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > input"))
             )
             search_input.clear()
-            search_input.send_keys("001_edit_here")
+            search_input.send_keys("math")
 
         # Step 20: Click Search Button
         with self.subTest("Click Search Button Again"):
