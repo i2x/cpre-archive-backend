@@ -12,11 +12,9 @@ from .views import (
 )
 
 
-
-
 urlpatterns = [
     path('auth/google/', GoogleLoginView.as_view(), name='google-login'),
-    path("auth/token", GetTokenByEmailView.as_view(), name="get-token"),
+    path("auth/token/", GetTokenByEmailView.as_view(), name="get-token"),
     
     # 🎯 Course API
     path("courses/", CourseListView.as_view(), name="course-list"),  # GET all courses, POST new course
