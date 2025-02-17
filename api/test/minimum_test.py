@@ -138,12 +138,22 @@ class MinimumTest(StaticLiveServerTestCase):
             )
             search_button.click()
 
-        # Step 15: Verify search result contains expected note
-        with self.subTest("Verify Search Result"):
-            result_text = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3 > strong"))
-            )
-            self.assertEqual(result_text.text, "math2")
+        # Step 15: Verify search result contains expected note details
+        with self.subTest("Verify Search Result Details"):
+            elements = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3"))
+            )   
+        elements_text = elements[0].text.split("\n")
+        
+        note_title = elements_text[0]
+        owner_text = elements_text[1]
+        course_text = elements_text[2]
+
+        self.assertEqual(note_title, "math2", f"Expected 'math2' but got '{note_title}'")
+        self.assertEqual(owner_text, "Owned by: sompong", f"Expected 'Owned by: sompong' but got '{owner_text}'")
+        self.assertEqual(course_text, "Introduction to Computer Science", f"Expected 'Introduction to Computer Science' but got '{course_text}'")
+
+
         # Step 16: Click on dropdown to select 'Tags'
         with self.subTest("Click on search dropdown"):
             dropdown = WebDriverWait(self.driver, 10).until(
