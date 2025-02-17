@@ -27,12 +27,12 @@ class MinimumTest(StaticLiveServerTestCase):
             button.click()
 
 
-        # Step 2: ตรวจสอบว่า Username 'tester' ปรากฏ
+        # Step 2: ตรวจสอบว่า Username 'sompong' ปรากฏ
         with self.subTest("Check Username Displayed"):
             username_span = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.nav-card > div.auth-section > span.username"))
             )
-            self.assertEqual(username_span.text, "tester")
+            self.assertEqual(username_span.text, "sompong")
 
 
         # Step 3: กด Navigation ไปที่ /notes
@@ -89,7 +89,7 @@ class MinimumTest(StaticLiveServerTestCase):
         # Step 8: กดปุ่มแก้ไข (Edit) บรรทัดที่ 2
         with self.subTest("Click Edit Button on Row 2"):
             edit_button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-warning.btn-sm"))
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button:nth-child(1)"))
             )
             edit_button.click()
 
@@ -104,7 +104,7 @@ class MinimumTest(StaticLiveServerTestCase):
         # Step 10: กดปุ่มบันทึก (Save)
         with self.subTest("Click Save Button on Row 2"):
             save_button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-primary.btn-sm"))
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button:nth-child(1)"))
             )
             save_button.click()
             time.sleep(0.1)
@@ -189,7 +189,7 @@ class MinimumTest(StaticLiveServerTestCase):
         # Step 22: Click Delete Button for the second row note
         with self.subTest("Click Delete Button on Row 2 and Accept Alert"):
             delete_button = WebDriverWait(self.driver, 10).until(
-               EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-danger.btn-sm.ms-1"))
+               EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div > div > table > tbody > tr:nth-child(2) > td:nth-child(5) > button.btn.btn-sm.ms-1"))
                )
             delete_button.click()
 
@@ -217,7 +217,7 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > button"))
             )
             search_button.click()
-            time.sleep(0.1)
+            time.sleep(1)
 
         # Step 26: Verify No Search Results After Deletion
         with self.subTest("Verify No Search Results After Deletion"):
