@@ -1,1 +1,1 @@
-from .minimum_test import MinimumTest;
+from .minimum_test import NoteTest,SearchTest;
