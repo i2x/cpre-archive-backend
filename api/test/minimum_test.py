@@ -13,6 +13,21 @@ class SearchTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.driver.quit()
 
+    def verify_search_result(self, expected_title, expected_owner, expected_course):
+        with self.subTest("Verify Search Result Details"):
+            elements = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3"))
+            )   
+        elements_text = elements[0].text.split("\n")
+
+        note_title = elements_text[0]
+        owner_text = elements_text[1]
+        course_text = elements_text[2]
+
+        self.assertEqual(note_title, expected_title)
+        self.assertEqual(owner_text, expected_owner)
+        self.assertEqual(course_text, expected_course)
+
     def test_search_functionality(self):
         self.driver.get("http://localhost:5173/")
 
@@ -28,22 +43,8 @@ class SearchTest(StaticLiveServerTestCase):
         )
         search_button.click()
         time.sleep(0.1)
-
-        #Verify search result contains expected note details
-        with self.subTest("Verify Search Result Details"):
-            elements = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3"))
-            )   
-        elements_text = elements[0].text.split("\n")
-        
-        note_title = elements_text[0]
-        owner_text = elements_text[1]
-        course_text = elements_text[2]
-
-        self.assertEqual(note_title, "Software Engineering Notes", f"Expected 'Software Engineering Notes' but got '{note_title}'")
-        self.assertEqual(owner_text, "Owned by: sompong", f"Expected 'Owned by: sompong' but got '{owner_text}'")
-        self.assertEqual(course_text, "Software Engineering Principles", f"Expected 'Software Engineering Principles' but got '{course_text}'")
-
+        # verify search result
+        self.verify_search_result("Software Engineering Notes", "Owned by: sompong", "Software Engineering Principles")
 
         # Search by Tag (Data Structures)
         dropdown = WebDriverWait(self.driver, 10).until(
@@ -59,11 +60,9 @@ class SearchTest(StaticLiveServerTestCase):
         search_input.clear()
         search_input.send_keys("data structures")
         search_button.click()
+        # verify search result
+        self.verify_search_result("Data Structures Guide", "Owned by: sompong", "Data Structures and Algorithms")
 
-        result_text = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div:nth-child(3) > ul > li:nth-child(1) > div > div.me-3 > strong"))
-        )
-        self.assertEqual(result_text.text, "Data Structures Guide")
         # search not found
         search_input.clear()
         search_input.send_keys("math")
