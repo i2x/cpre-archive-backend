@@ -1,0 +1,21 @@
+# ใช้ Python 3.11 เป็น Base Image
+FROM python:3.11
+
+# ตั้งค่าตัวแปร
+ENV PYTHONUNBUFFERED=1
+
+# กำหนด Working Directory
+WORKDIR /app
+
+# คัดลอกไฟล์ requirements.txt และติดตั้ง dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# คัดลอกโค้ดทั้งหมดไปที่ Container
+COPY . .
+
+# รัน Migrations ก่อนเริ่มต้นใช้งาน
+RUN python manage.py migrate
+
+# คำสั่งเริ่มต้น ใช้ Gunicorn รัน API
+CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]

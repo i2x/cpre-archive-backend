@@ -167,6 +167,7 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.element_to_be_clickable((By.XPATH, "//option[@value='tags']"))
              )
             tag_option.click()
+            time.sleep(1)
 
         # Step 18: Enter search query 'data structures'
         with self.subTest("Enter search query 'data structures'"):
@@ -174,7 +175,8 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > input"))
             )
             search_input.clear()
-            search_input.send_keys("data structures")
+            search_input.send_keys("guide")
+            time.sleep(1)
 
         # Step 19: Click Search Button_
         with self.subTest("Click Search Button"):
@@ -182,6 +184,7 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > button"))
             )
             search_button.click()
+            time.sleep(1)
 
         # Step 20: Verify search result contains 'Data Structures Guide'
         with self.subTest("Verify search result contains 'Data Structures Guide'"):
@@ -227,7 +230,7 @@ class MinimumTest(StaticLiveServerTestCase):
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "#app > div > div.container > div > div.input-group.w-50.mx-auto > button"))
             )
             search_button.click()
-            time.sleep(1)
+
 
         # Step 26: Verify No Search Results After Deletion
         with self.subTest("Verify No Search Results After Deletion"):

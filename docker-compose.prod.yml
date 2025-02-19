@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: backend-prod
+    image: backend-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - .env.prod
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3  # แชร์ไฟล์ฐานข้อมูล SQLite
+    ports:
+      - "8000:8000"
+    restart: always
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
