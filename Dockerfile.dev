@@ -1,18 +1,21 @@
 # ใช้ Python 3.11 เป็น Base Image
 FROM python:3.11
 
-# ตั้งค่าตัวแปร
-ENV PYTHONUNBUFFERED=1
+# ติดตั้ง netcat
+RUN apt-get update && apt-get install -y netcat-openbsd
 
 # กำหนด Working Directory
 WORKDIR /app
 
-# คัดลอกไฟล์ requirements.txt และติดตั้ง dependencies
+# คัดลอก requirements.txt และติดตั้ง dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# คัดลอกโค้ดทั้งหมดไปที่ Container
-COPY . .
+# คัดลอกไฟล์ .env
+COPY .env .env
 
-# คำสั่งเริ่มต้น ใช้ `runserver` เพื่อรัน API ในโหมดพัฒนา
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# กำหนด environment variables
+ENV PYTHONUNBUFFERED=1
+
+# รันเซิร์ฟเวอร์ Django
+CMD ["sh", "-c", "python manage.py migrate  && python manage.py loaddata data.json && python manage.py runserver 0.0.0.0:8000"]

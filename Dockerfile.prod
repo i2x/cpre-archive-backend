@@ -1,21 +1,27 @@
 # ใช้ Python 3.11 เป็น Base Image
 FROM python:3.11
 
-# ตั้งค่าตัวแปร
-ENV PYTHONUNBUFFERED=1
+# ติดตั้ง dependencies ที่จำเป็น
+RUN apt-get update && apt-get install -y netcat-openbsd && \
+    rm -rf /var/lib/apt/lists/*
 
 # กำหนด Working Directory
 WORKDIR /app
 
-# คัดลอกไฟล์ requirements.txt และติดตั้ง dependencies
+# คัดลอก requirements.txt และติดตั้ง dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# คัดลอกโค้ดทั้งหมดไปที่ Container
+# คัดลอกไฟล์ทั้งหมดของโปรเจค
 COPY . .
 
-# รัน Migrations ก่อนเริ่มต้นใช้งาน
-RUN python manage.py migrate
+# กำหนด environment variables
+ENV PYTHONUNBUFFERED=1
 
-# คำสั่งเริ่มต้น ใช้ Gunicorn รัน API
-CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Expose Port 8000
+EXPOSE 8000
+
+# รัน Gunicorn สำหรับ Production
+CMD ["sh", "-c", "python manage.py migrate && \
+                  python manage.py loaddata data.json && \
+                  gunicorn --chdir /app --bind 0.0.0.0:8000 backend.wsgi:application --workers 4 --threads 2 --timeout 120"]
