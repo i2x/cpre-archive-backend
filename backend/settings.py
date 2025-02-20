@@ -129,11 +129,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('DATABASE_USER'),  # ใช้ root
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),  # ใช้รหัสผ่านเดียวกับ root
         'HOST': os.getenv('DATABASE_HOST'),
         'PORT': os.getenv('DATABASE_PORT'),
+        'NAME': os.getenv('MYSQL_DATABASE'),
+        'USER': os.getenv('MYSQL_USER'),  # ใช้ root
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),  # ใช้รหัสผ่านเดียวกับ root
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
