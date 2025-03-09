@@ -60,14 +60,17 @@ class SearchTest(StaticLiveServerTestCase):
         search_input.clear()
         search_input.send_keys("data structures")
         search_button.click()
+        time.sleep(1)
         # verify search result
         self.verify_search_result("Data Structures Guide", "Owned by: sompong", "Data Structures and Algorithms")
 
+        time.sleep(1)
         # search not found
         search_input.clear()
         search_input.send_keys("math")
         search_button.click()
 
+        time.sleep(0.2)
         no_files_element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'No files found.')]"))
         )
